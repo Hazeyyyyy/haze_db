@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 04, 2025 at 10:46 AM
+-- Generation Time: Dec 04, 2025 at 05:32 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -28,9 +28,8 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `categories` (
-  `id` int(11) NOT NULL,
-  `name` varchar(100) NOT NULL,
-  `description` text DEFAULT NULL
+  `categoryID` int(11) NOT NULL,
+  `categoryName` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -40,11 +39,9 @@ CREATE TABLE `categories` (
 --
 
 CREATE TABLE `customers` (
-  `id` int(11) NOT NULL,
-  `name` varchar(100) NOT NULL,
-  `email` varchar(100) NOT NULL,
-  `phone` varchar(20) DEFAULT NULL,
-  `address` text DEFAULT NULL
+  `customerID` int(11) NOT NULL,
+  `customerName` varchar(100) NOT NULL,
+  `email` varchar(100) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -54,10 +51,9 @@ CREATE TABLE `customers` (
 --
 
 CREATE TABLE `orders` (
-  `id` int(11) NOT NULL,
-  `customer_id` int(11) NOT NULL,
-  `order_date` datetime DEFAULT current_timestamp(),
-  `total_amount` decimal(10,2) NOT NULL
+  `orderID` int(11) NOT NULL,
+  `customerID` int(11) DEFAULT NULL,
+  `orderDate` datetime DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -67,9 +63,9 @@ CREATE TABLE `orders` (
 --
 
 CREATE TABLE `order_items` (
-  `id` int(11) NOT NULL,
-  `order_id` int(11) NOT NULL,
-  `product_id` int(11) NOT NULL,
+  `orderItemID` int(11) NOT NULL,
+  `orderID` int(11) DEFAULT NULL,
+  `productID` int(11) DEFAULT NULL,
   `quantity` int(11) NOT NULL,
   `price` decimal(10,2) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -81,11 +77,10 @@ CREATE TABLE `order_items` (
 --
 
 CREATE TABLE `products` (
-  `id` int(11) NOT NULL,
-  `name` varchar(100) NOT NULL,
-  `category_id` int(11) NOT NULL,
+  `productID` int(11) NOT NULL,
+  `productName` varchar(100) NOT NULL,
   `price` decimal(10,2) NOT NULL,
-  `description` text DEFAULT NULL
+  `categoryID` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -96,37 +91,35 @@ CREATE TABLE `products` (
 -- Indexes for table `categories`
 --
 ALTER TABLE `categories`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `name` (`name`);
+  ADD PRIMARY KEY (`categoryID`);
 
 --
 -- Indexes for table `customers`
 --
 ALTER TABLE `customers`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `email` (`email`);
+  ADD PRIMARY KEY (`customerID`);
 
 --
 -- Indexes for table `orders`
 --
 ALTER TABLE `orders`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `idx_customer` (`customer_id`);
+  ADD PRIMARY KEY (`orderID`),
+  ADD KEY `customerID` (`customerID`);
 
 --
 -- Indexes for table `order_items`
 --
 ALTER TABLE `order_items`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `idx_order` (`order_id`),
-  ADD KEY `idx_product` (`product_id`);
+  ADD PRIMARY KEY (`orderItemID`),
+  ADD KEY `orderID` (`orderID`),
+  ADD KEY `productID` (`productID`);
 
 --
 -- Indexes for table `products`
 --
 ALTER TABLE `products`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `idx_category` (`category_id`);
+  ADD PRIMARY KEY (`productID`),
+  ADD KEY `categoryID` (`categoryID`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -136,31 +129,54 @@ ALTER TABLE `products`
 -- AUTO_INCREMENT for table `categories`
 --
 ALTER TABLE `categories`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `categoryID` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `customers`
 --
 ALTER TABLE `customers`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `customerID` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `orderID` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `order_items`
 --
 ALTER TABLE `order_items`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `orderItemID` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `products`
 --
 ALTER TABLE `products`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `productID` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `orders`
+--
+ALTER TABLE `orders`
+  ADD CONSTRAINT `orders_ibfk_1` FOREIGN KEY (`customerID`) REFERENCES `customers` (`customerID`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `order_items`
+--
+ALTER TABLE `order_items`
+  ADD CONSTRAINT `order_items_ibfk_1` FOREIGN KEY (`orderID`) REFERENCES `orders` (`orderID`) ON DELETE CASCADE,
+  ADD CONSTRAINT `order_items_ibfk_2` FOREIGN KEY (`productID`) REFERENCES `products` (`productID`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `products`
+--
+ALTER TABLE `products`
+  ADD CONSTRAINT `products_ibfk_1` FOREIGN KEY (`categoryID`) REFERENCES `categories` (`categoryID`) ON DELETE SET NULL;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
