@@ -1,0 +1,169 @@
+/* -------------------------------
+   General Page Styles
+---------------------------------*/
+body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+    background-color: #f5f1e6;   /* Cream/Beige background */
+    color: #3e0000;              /* Dark maroon text */
+}
+
+h1, h2, h3 {
+    color: #800000;              /* Maroon headers */
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+p {
+    text-align: center;
+}
+
+/* -------------------------------
+   Navigation Card - Centered & Equal Links
+---------------------------------*/
+.nav-card {
+    background-color: #fff8f0;       /* Light cream */
+    border: 2px solid #800000;       /* Maroon border */
+    border-radius: 10px;
+    padding: 15px 20px;
+    margin: 0 auto 20px auto;        /* Center the card */
+    display: flex;
+    justify-content: center;         /* Center links */
+    flex-wrap: nowrap;               /* Keep links in one line */
+    gap: 20px;                       /* Equal spacing between links */
+    box-shadow: 2px 2px 8px rgba(0,0,0,0.1);
+    max-width: 800px;
+}
+
+.nav-card a {
+    background-color: #800000;       /* Maroon background */
+    color: #f5f1e6;                  /* Cream text */
+    padding: 10px 0;
+    border-radius: 5px;
+    font-weight: bold;
+    text-decoration: none;
+    text-align: center;
+    flex: 1;                         /* Equal width links */
+    min-width: 150px;                /* Prevent too small */
+    transition: background-color 0.3s;
+}
+
+.nav-card a:hover {
+    background-color: #a30000;       /* Brighter maroon hover */
+}
+
+/* -------------------------------
+   Form Container
+---------------------------------*/
+.form-container {
+    display: flex;
+    justify-content: center;         /* Center horizontally */
+    margin-top: 20px;
+}
+
+form {
+    background-color: #fff8f0;       /* Light cream */
+    padding: 25px 30px;
+    border: 2px solid #800000;       /* Maroon border */
+    border-radius: 10px;
+    width: 400px;                     /* Fixed width */
+    box-shadow: 2px 2px 8px rgba(0,0,0,0.1);
+}
+
+/* Form Inputs */
+form input[type="text"],
+form input[type="number"],
+form select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #800000;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+/* Submit Button */
+form input[type="submit"] {
+    width: 100%;
+    background-color: #800000;       /* Maroon button */
+    color: #f5f1e6;                  /* Cream text */
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+form input[type="submit"]:hover {
+    background-color: #a30000;       /* Brighter maroon hover */
+}
+
+/* -------------------------------
+   Table Styles
+---------------------------------*/
+table {
+    width: 90%;
+    margin: 20px auto;
+    border-collapse: collapse;
+    background-color: #fff8f0;
+    border: 2px solid #800000;
+    border-radius: 5px;
+    overflow: hidden;
+    box-shadow: 2px 2px 8px rgba(0,0,0,0.1);
+}
+
+table th, table td {
+    padding: 12px 15px;
+    border-bottom: 1px solid #800000;
+    text-align: left;
+    vertical-align: middle;
+}
+
+table th {
+    background-color: #800000;
+    color: #f5f1e6;
+}
+
+table tr:nth-child(even) {
+    background-color: #fdf5ec;
+}
+
+table tr:hover {
+    background-color: #ffe6e6;
+}
+
+/* Table Action Buttons */
+table td a {
+    display: inline-block;
+    padding: 5px 10px;
+    margin: 0 2px;
+    border-radius: 5px;
+    font-size: 14px;
+    text-decoration: none;
+    text-align: center;
+    color: #f5f1e6;
+    background-color: #800000;
+    transition: background-color 0.3s;
+}
+
+table td a:hover {
+    background-color: #a30000;
+}
+
+/* -------------------------------
+   Responsive Adjustments
+---------------------------------*/
+@media (max-width: 500px) {
+    .nav-card {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    form {
+        width: 90%;
+    }
+
+    table {
+        width: 100%;
+    }
+}
